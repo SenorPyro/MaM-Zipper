@@ -13,7 +13,7 @@ https://github.com/Stuk/jszip
 
 ## Install instructions
 
-1. Visit: https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/ for Firefox or https://tampermonkey.net/ for other browsers
+1. Visit: https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/ for Firefox\ or https://tampermonkey.net/ for other browsers
 2. Install Tampermonkey for your desired browser
 3. Open this link: https://github.com/SenorPyro/MaM-Zipper/raw/master/MaMzip.user.js
 4. Click Install/Update
