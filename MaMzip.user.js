@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name				MaM Zipper
 // @namespace			https://nowhere.com/
-// @version				1.0.3b
+// @version				1.1b
 // @description			Adds a Download as Zip button to search pages
 // @author				pyrokiller
 // @icon				https://i.imgur.com/ivXsCrU.png
@@ -56,17 +56,27 @@ c=a.heap_max+1;c<V;c++)d=a.heap[c],f=i[2*i[2*d+1]+1]+1,f>o&&(f=o,p++),i[2*d+1]=f
 window.addEventListener('load', addButtons);
 
 // Initialize global variables
-var torrentData, titles, dlLinks, zip, counter;
+var torrentData, titles, dlLinks, zip, counter, excludeState, limitState;
 
 // Adds the download as zip button
 function addButtons(){
-	var itm = document.getElementById("advNav");
-	var cln = itm.cloneNode(true);
-	cln.innerHTML = "Download as ZIP";
-	cln.setAttribute("id","zipper");
-	cln.onclick = function(){zipdl();};
+	var advNav = document.getElementById("advNav");
+	var zipButton = advNav.cloneNode(true);
+	var excludeButton = advNav.cloneNode(true);
+	var limitButton = advNav.cloneNode(true);
+	zipButton.innerHTML = "Download as ZIP";
+	zipButton.setAttribute("id","zipper");
+	zipButton.onclick = function(){zipdl();};
+	excludeButton.innerHTML = "Exclude active: OFF";
+	excludeButton.setAttribute("id","excluder");
+	excludeButton.onclick = function(){excludeToggle();};
+	limitButton.innerHTML = "Size limit: OFF";
+	limitButton.setAttribute("id","limiter");
+	limitButton.onclick = function(){limitToggle();};
 	var container = document.getElementById("torSearch");
-	container.appendChild(cln);
+	container.appendChild(zipButton);
+	container.appendChild(excludeButton);
+	container.appendChild(limitButton);
 }
 
 // Downloads a torrent and adds it to the torrent data array
@@ -88,10 +98,69 @@ function callbackWaiter(){
 	else{counter++;}
 }
 
-//Gets called on button push
+//Gets called on button exclude button push
+function excludeToggle(){
+	if(excludeState == null){
+		document.getElementById("excluder").innerHTML = "Exclude active: ON";
+		excludeState = true;
+	}
+	else{
+		document.getElementById("excluder").innerHTML = "Exclude active: OFF";
+		excludeState = null;
+	}
+}
+
+//Gets called on button limit button push
+function limitToggle(){
+	var container = document.getElementById("torSearch");
+	
+	if(limitState  == null){
+		try{
+			document.getElementById("limiter").innerHTML = "Size limit: ON";
+			
+			var torTitle = document.getElementById("torTitle");
+			var sizeInput = torTitle.cloneNode(true);
+			sizeInput.setAttribute("id","sizeInput");
+			sizeInput.setAttribute("size","6");
+			sizeInput.setAttribute("placeholder","Max Size");
+			sizeInput.style.fontSize = "24px"; 
+			container.appendChild(sizeInput);
+			
+			var torTitle = document.getElementById("dataSubset");
+			var sizeSelector = torTitle.cloneNode(true);
+			sizeSelector.setAttribute("id","sizeSelector");
+			sizeSelector.setAttribute("name","sizeSelector");
+			sizeSelector.style.fontSize = "24px"; 
+			sizeSelector[0].value = "None";
+			sizeSelector[0].text = "None";
+			sizeSelector[1].value = "KB";
+			sizeSelector[1].text = "KB";
+			sizeSelector[2].value = "MB";
+			sizeSelector[2].text = "MB";
+			sizeSelector[3].value = "GB";
+			sizeSelector[3].text = "GB";
+
+			while(!(sizeSelector[4] == null)){
+				sizeSelector[4] = null;
+			}
+		}
+
+		finally{
+			container.appendChild(sizeSelector);
+			limitState = true;
+		}
+	}
+	else{
+		document.getElementById("limiter").innerHTML = "Size limit: OFF";
+		container.removeChild(document.getElementById("sizeInput"));
+		container.removeChild(document.getElementById("sizeSelector"));
+		limitState = null;
+	}
+}
+
+//Gets called on button zip button push
 function zipdl() {
-	var blacklist = [];
-	var tempLinks, tempTitles;
+	var tempLinks, tempTitles, active, blackList;
 	
 	new Promise((resolve, reject) => {
 		resolve();
@@ -100,10 +169,64 @@ function zipdl() {
 	// Gets the tables of links and titles
 	.then(() => {
 		counter = 0;
-		dlLinks = document.querySelectorAll("[class*=directDownload]");
-		titles = document.querySelectorAll("[class=title]");
+		tempLinks = document.querySelectorAll("[class*=directDownload]");
+		tempTitles = document.querySelectorAll("[class=title]");
+		active = document.querySelectorAll("[class=browseAct]");
 		zip = new JSZip();
 		torrentData = [];
+		titles = [];
+		dlLinks = [];
+	})
+	
+	// Populate global variables and apply blacklist
+	.then(() => {
+		blackList = [];
+		
+		try{
+			// Find already leeching/seeding torrents and adds them to the blacklist
+			if(excludeState){			
+				for(i=0; i < active.length; i++){
+					blackList[active[i].parentNode.parentNode.childNodes[7].childNodes[0].href] = true;
+				}
+			}
+			
+			// Find already leeching/seeding torrents and adds them to the blacklist
+			if(limitState && !(document.getElementById("sizeSelector").selectedIndex == 0)){
+				if(isNaN(Number(document.getElementById("sizeInput").value)) || document.getElementById("sizeInput").value == 0){
+					alert("That's not a number or 0 on the size limit, size limit disabled!");
+				}
+				else{
+					var upperLimit = Math.pow(1024,document.getElementById("sizeSelector").selectedIndex)*Number(document.getElementById("sizeInput").value);
+					var sizeLookup = [];
+					sizeLookup["KB"] = 1;
+					sizeLookup["MB"] = 2;
+					sizeLookup["GB"] = 3;
+					console.log(upperLimit);
+					
+					for(i=0; i < tempTitles.length; i++){
+						var tString = tempTitles[i].parentNode.parentNode.childNodes[9].childNodes[2].data;
+						tString = tString.substring(1,tString.length-1);
+						var multiplier = sizeLookup[tString.substring(tString.length-2)];
+						tString = tString.substring(0,tString.length-3);
+						var torrentSize = Math.pow(1024,multiplier)*Number(tString);
+						
+						if(torrentSize>upperLimit){
+							blackList[tempTitles[i].parentNode.parentNode.childNodes[7].childNodes[0].href] = true;
+						}
+						
+					}
+				}
+			}
+		}
+		
+		finally{
+			for(i=0; i < tempLinks.length; i++){
+				if(blackList[tempLinks[i]] == null){
+					dlLinks.push(tempLinks[i]);
+					titles.push(tempTitles[i]);
+				}
+			}
+		}
 	})
 
 	// Downloads all the torrents
@@ -126,7 +249,6 @@ function zipFunction(){
 		document.getElementById("zipper").innerHTML = "Adding to ZIP...";
 		for (i = 0; i < titles.length; i++) {
 			var title = titles[i].innerHTML.replace(/[^a-z0-9]/gi, " ");
-			console.log(title);
 			zip.file((i+1).toString().padStart(3,"0") + " " + title + ".torrent", torrentData[i]);
 		}
 	})
