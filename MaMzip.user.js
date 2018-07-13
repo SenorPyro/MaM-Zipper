@@ -70,13 +70,13 @@ function addButtons(){
 }
 
 // Downloads a torrent and adds it to the torrent data array
-function download(link) {
+function download(link,place) {
 	GM_xmlhttpRequest({
 	method: "GET",
 	url: link,
 	responseType: "blob",
 	onload: function(response) {
-		torrentData.push(response.response);
+		torrentData[place] = response.response;
 		callbackWaiter();
 		}
 	});
@@ -110,7 +110,7 @@ function zipdl() {
 	.then(() => {
 		document.getElementById("zipper").innerHTML = "Downloading torrents...";
 		for (i = 0; i < dlLinks.length; i++) {
-			download(dlLinks[i].href);
+			download(dlLinks[i].href,i);
 		}
 	});
 }
