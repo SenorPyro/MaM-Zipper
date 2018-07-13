@@ -1,4 +1,4 @@
-# MaM Zipper v1.0.1b
+# MaM Zipper v1.0.2b
 
 ## Description
 This is a script for Violentmonkey and Tampermonkey that
@@ -41,3 +41,4 @@ Description | Version | State
 --- | --- | ---
 Initial commit | v1.0 | beta
 Added "id" to the torrents to not get filename conflicts | v1.0.1 | beta
+Added ordering to the downloads to make them match their filenames | v1.0.2 | beta
