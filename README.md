@@ -25,8 +25,9 @@ Known to not work on:
 
 * Greasemonkey for Firefox Quantum on Windows 10
 
-I do however not see a reason why it shouldn't work on Tampermonkey for Safari on OSX and
-Violentmonkey/Tampermonkey on Linux and OSX
+I do however not see a reason why it shouldn't work on Tampermonkey/Violentmonkey
+for any other browser on any other operating system, 
+except for Internet Explorer, but should work on Edge.
 
 ## Known issues
 * Strips the encoding of the torrent files which may cause problems for poorly implemented torrent scripts
