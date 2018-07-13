@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name				MaM Zipper
 // @namespace			https://nowhere.com/
-// @version				1.0.1
+// @version				1.0.2b
 // @description			Adds a Download as Zip button to search pages
 // @author				pyrokiller
 // @icon				https://i.imgur.com/ivXsCrU.png
