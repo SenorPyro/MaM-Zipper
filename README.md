@@ -1,34 +1,48 @@
 # MaM Zipper v1.1b
 
 ## Description
-This is a script for Violentmonkey and Tampermonkey that
+This is a script for Violentmonkey and Tampermonkey that  
 adds a "Download as Zip" button to search pages of the MaM tracker.
 
-It also adds a button that excludes previously/currently seeding/leeching, \
+It also adds a button that excludes previously/currently seeding/leeching,  
 and an option to set an upper limit to the torrent size.
 
+Currently only supports Chrome, Chromium and Firefox
 
 It uses JSzip 3.1.5, found here:
 https://github.com/Stuk/jszip
 
 ## Install instructions
 
-1. Visit: https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/ for Firefox
- or https://tampermonkey.net/ for other browsers
-2. Install Tampermonkey for your desired browser
+1. Visit: https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/ for Firefox  
+    or https://tampermonkey.net/ for Chrome and Chromium
+2. Install Tampermonkey or Violentmonkey for your browser
 3. Open this link: https://github.com/SenorPyro/MaM-Zipper/raw/master/MaMzip.user.js
 4. Click Install/Update
 5. You're done
 
 ## Compatibility
-Currently only tested on: 
 
-* Violentmonkey for Firefox Quantum on Windows 10
-* Tampermonkey for Chrome on Windows 10
+Operating System | Browser | Plugin | State
+--- | --- | --- | ---
+Windows 10 | Firefox Quantum | Violentmonkey | :heavy_check_mark:
+Windows 10 | Chrome | Tampermonkey | :heavy_check_mark:
+macOS 10.12 | Firefox ESR | Violentmonkey | :heavy_check_mark:
+macOS 10.12 | Chrome | Tampermonkey| :heavy_check_mark:
+Debian 9.4 | Firefox Quantum | Violentmonkey | :heavy_check_mark:
+Debian 9.4 | Firefox ESR | Violentmonkey | :heavy_check_mark:
+Debian 9.4 | Chrome | Tampermonkey | :heavy_check_mark:
+Debian 9.4 | Chromium | Tampermonkey | :heavy_check_mark:
+Windows 10 | Firefox Quantum | Tampermonkey | :x:
+Windows 10 | Chrome | Violentmonkey| :x:
+macOS 10.12 | Safari | Tampermonkey | :x:
+macOS 10.12 | Firefox Quantum | Tampermonkey | :x:
+macOS 10.12 | Chrome | Violentmonkey| :x:
+Debian 9.4 | Firefox Quantum | Tampermonkey | :x:
+Debian 9.4 | Firefox ESR | Tampermonkey | :x:
+Debian 9.4 | Chrome | Violentmonkey | :x:
+Debian 9.4 | Chromium | Violentmonkey | :x:
 
-Known to not work on:
-
-* Greasemonkey for Firefox Quantum on Windows 10
 
 I do however not see a reason why it shouldn't work on Tampermonkey/Violentmonkey
 for any other browser on any other operating system, 
