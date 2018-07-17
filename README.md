@@ -49,7 +49,10 @@ for any other browser on any other operating system,
 except for Internet Explorer, but should work on Edge.
 
 ## Known issues
-* Strips the encoding of the torrent files which may cause problems for poorly implemented torrent scripts
+* Crashes if the torrent page contains your own upload(s)
+* The conversion to blob strips the file encoding property of the file,  
+   which can interfere with some poorly written scripts  
+   I can't seem to find a good way to solve this
 
 ## Future plans
 * Wait for users to ask for features
