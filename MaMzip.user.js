@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name				MaM Zipper
 // @namespace			https://nowhere.com/
-// @version				2.0b
+// @version				2.1
 // @description			Adds a Download as Zip button to search pages
 // @author				pyrokiller
 // @icon				https://i.imgur.com/ivXsCrU.png
@@ -88,7 +88,7 @@ function excludeToggle(){
 function limitToggle(){
 	var container = document.getElementById("torSearch");
 
-	if(limitState  == null){
+	if(limitState == null){
 		document.getElementById("limiter").innerHTML = "Size limit: ON";
 
 		var torTitle = document.getElementById("torTitle");
@@ -99,7 +99,7 @@ function limitToggle(){
 		sizeInput.style.fontSize = "24px";
 		container.appendChild(sizeInput);
 
-		var torTitle = document.getElementById("dataSubset");
+		torTitle = document.getElementById("dataSubset");
 		var sizeSelector = torTitle.cloneNode(true);
 		sizeSelector.setAttribute("id","sizeSelector");
 		sizeSelector.setAttribute("name","sizeSelector");
@@ -165,7 +165,7 @@ function zipdl(){
   var dlPromises = [];
   var torrents = [];
 	var limit = 0;
-  var titles = document.querySelectorAll("[class=torTitle]");
+  var titles = document.querySelectorAll("[class*=torTitle]");
   var links = document.querySelectorAll("[class=directDownload]");
   var sizes = document.querySelectorAll("[id*=tdr]");
 
@@ -192,7 +192,7 @@ function zipdl(){
 		if (excludeState) {
 			var i;
 			for (i=0; i<sizes[index].children[2].children.length; i++){
-				if(sizes[index].children[2].children[i].className == "browseAct"){
+				if(sizes[index].children[2].children[i].className.substr(0,6) == "browse"){
 					torrents[index].download = false;
 				}
 			}
