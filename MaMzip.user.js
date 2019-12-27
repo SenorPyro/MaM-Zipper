@@ -1,16 +1,16 @@
 // ==UserScript==
-// @name				MaM Zipper
-// @namespace			https://nowhere.com/
-// @version				2.2.1
-// @description			Adds a Download as Zip button to search pages
-// @author				pyrokiller
-// @icon				https://i.imgur.com/ivXsCrU.png
-// @include				https://www.myanonamouse.net/tor/browse.php?*
-// @include				https://www.myanonamouse.net/tor/browse.php
-// @include				http://www.myanonamouse.net/tor/browse.php?*
-// @include				http://www.myanonamouse.net/tor/browse.php
-// @grant				GM_xmlhttpRequest
-// @grant				GM_download
+// @name           MaM Zipper
+// @namespace      https://nowhere.com/
+// @version        2.2.2
+// @description    Adds a Download as Zip button to search pages
+// @author         pyrokiller
+// @icon           https://i.imgur.com/ivXsCrU.png
+// @include        https://www.myanonamouse.net/tor/browse.php?*
+// @include        https://www.myanonamouse.net/tor/browse.php
+// @include        http://www.myanonamouse.net/tor/browse.php?*
+// @include        http://www.myanonamouse.net/tor/browse.php
+// @grant          GM_xmlhttpRequest
+// @grant          GM_download
 // ==/UserScript==
 
 /*
@@ -54,95 +54,95 @@ var excludeState, limitState;
 
 // Adds the download as zip button
 function addButtons(){
-	var advNav = document.getElementById("advNav");
-	var zipButton = advNav.cloneNode(true);
-	var excludeButton = advNav.cloneNode(true);
-	var limitButton = advNav.cloneNode(true);
-	zipButton.innerHTML = "Download as ZIP";
-	zipButton.setAttribute("id","zipper");
-	zipButton.onclick = function(){zipdl();};
-	excludeButton.innerHTML = "Exclude active: OFF";
-	excludeButton.setAttribute("id","excluder");
-	excludeButton.onclick = function(){excludeToggle();};
-	limitButton.innerHTML = "Size limit: OFF";
-	limitButton.setAttribute("id","limiter");
-	limitButton.onclick = function(){limitToggle();};
-	var container = document.getElementById("torSearch");
-	container.appendChild(zipButton);
-	container.appendChild(excludeButton);
-	container.appendChild(limitButton);
+  var advNav = document.getElementById("advNav");
+  var zipButton = advNav.cloneNode(true);
+  var excludeButton = advNav.cloneNode(true);
+  var limitButton = advNav.cloneNode(true);
+  zipButton.innerHTML = "Download as ZIP";
+  zipButton.setAttribute("id","zipper");
+  zipButton.onclick = function(){zipdl();};
+  excludeButton.innerHTML = "Exclude active: OFF";
+  excludeButton.setAttribute("id","excluder");
+  excludeButton.onclick = function(){excludeToggle();};
+  limitButton.innerHTML = "Size limit: OFF";
+  limitButton.setAttribute("id","limiter");
+  limitButton.onclick = function(){limitToggle();};
+  var container = document.getElementById("torSearch");
+  container.appendChild(zipButton);
+  container.appendChild(excludeButton);
+  container.appendChild(limitButton);
 }
 
 //Gets called on button exclude button push
 function excludeToggle(){
-	if(excludeState == null){
-		document.getElementById("excluder").innerHTML = "Exclude active: ON";
-		excludeState = true;
-	} else {
-		document.getElementById("excluder").innerHTML = "Exclude active: OFF";
-		excludeState = null;
-	}
+  if(excludeState == null){
+  document.getElementById("excluder").innerHTML = "Exclude active: ON";
+  excludeState = true;
+  } else {
+  document.getElementById("excluder").innerHTML = "Exclude active: OFF";
+  excludeState = null;
+  }
 }
 
 //Gets called on button limit button push
 function limitToggle(){
-	var container = document.getElementById("torSearch");
+  var container = document.getElementById("torSearch");
 
-	if(limitState == null){
-		document.getElementById("limiter").innerHTML = "Size limit: ON";
+  if(limitState == null){
+  document.getElementById("limiter").innerHTML = "Size limit: ON";
 
-		var torTitle = document.getElementById("torTitle");
-		var sizeInput = torTitle.cloneNode(true);
-		sizeInput.setAttribute("name","maxSize");
-		sizeInput.setAttribute("id","sizeInput");
-		sizeInput.setAttribute("size","6");
-		sizeInput.setAttribute("placeholder","Max Size");
-		sizeInput.style.fontSize = "24px";
-		container.appendChild(sizeInput);
+  var torTitle = document.getElementById("torTitle");
+  var sizeInput = torTitle.cloneNode(true);
+  sizeInput.setAttribute("name","maxSize");
+  sizeInput.setAttribute("id","sizeInput");
+  sizeInput.setAttribute("size","6");
+  sizeInput.setAttribute("placeholder","Max Size");
+  sizeInput.style.fontSize = "24px";
+  container.appendChild(sizeInput);
 
-		torTitle = document.getElementById("dataSubset");
-		var sizeSelector = torTitle.cloneNode(true);
-		sizeSelector.setAttribute("id","sizeSelector");
-		sizeSelector.setAttribute("name","sizeSelector");
-		sizeSelector.style.fontSize = "24px";
-		sizeSelector[0].value = "None";
-		sizeSelector[0].text = "None";
-		sizeSelector[1].value = "KB";
-		sizeSelector[1].text = "KB";
-		sizeSelector[2].value = "MB";
-		sizeSelector[2].text = "MB";
-		sizeSelector[3].value = "GB";
-		sizeSelector[3].text = "GB";
+  torTitle = document.getElementById("dataSubset");
+  var sizeSelector = torTitle.cloneNode(true);
+  sizeSelector.setAttribute("id","sizeSelector");
+  sizeSelector.setAttribute("name","sizeSelector");
+  sizeSelector.style.fontSize = "24px";
+  sizeSelector[0].value = "None";
+  sizeSelector[0].text = "None";
+  sizeSelector[1].value = "KB";
+  sizeSelector[1].text = "KB";
+  sizeSelector[2].value = "MB";
+  sizeSelector[2].text = "MB";
+  sizeSelector[3].value = "GB";
+  sizeSelector[3].text = "GB";
 
-		while(!(sizeSelector[4] == null)){
-			sizeSelector[4] = null;
-		}
-		container.appendChild(sizeSelector);
-		limitState = true;
-	} else {
-		document.getElementById("limiter").innerHTML = "Size limit: OFF";
-		container.removeChild(document.getElementById("sizeInput"));
-		container.removeChild(document.getElementById("sizeSelector"));
-		limitState = null;
-	}
+  while(!(sizeSelector[4] == null)){
+  sizeSelector[4] = null;
+  }
+  container.appendChild(sizeSelector);
+  limitState = true;
+  } else {
+  document.getElementById("limiter").innerHTML = "Size limit: OFF";
+  container.removeChild(document.getElementById("sizeInput"));
+  container.removeChild(document.getElementById("sizeSelector"));
+  limitState = null;
+  }
 }
 
 // Download promise for GM
 function downloadPromise(link) {
   return new Promise((resolve, reject) => {
-	   GM_xmlhttpRequest({
+     GM_xmlhttpRequest({
        method: "GET",
-	     url: link,
-	     responseType: "blob",
-	     onload: function(response) {
-		     resolve(response.response);
-	   }
-	  });
+       url: link,
+       responseType: "blob",
+       onload: function(response) {
+       resolve(response.response);
+     }
+    });
   });
 }
 
 function convertSize(data, lever=null){
-	var num;
+  var num;
 
   var convertTable = {
     K: 1024,
@@ -150,13 +150,13 @@ function convertSize(data, lever=null){
     G: 1073741824
   };
 
-	if (lever) {
-		num = parseFloat(data);
-		num *= convertTable[data.substr(data.length-2,1)];
-	} else {
-  	num = parseFloat(data.substr(1));
-  	num *= convertTable[data.substr(data.length-3,1)];
-	}
+  if (lever) {
+  num = parseFloat(data);
+  num *= convertTable[data.substr(data.length-2,1)];
+  } else {
+    num = parseFloat(data.substr(1));
+    num *= convertTable[data.substr(data.length-3,1)];
+  }
   return num;
 }
 
@@ -165,16 +165,16 @@ function zipdl(){
   var zip = new JSZip();
   var dlPromises = [];
   var torrents = [];
-	var limit = 0;
+  var limit = 0;
   var titles = document.querySelectorAll("[class*=torTitle]");
   var links = document.querySelectorAll("[class=directDownload]");
   var sizes = document.querySelectorAll("[id*=tdr]");
 
-	if (limitState){
-		if (!Number.isNaN(parseFloat(document.getElementById("sizeInput").value)) && document.getElementById("sizeSelector").value != "None"){
-			limit = convertSize(document.getElementById("sizeInput").value + document.getElementById("sizeSelector").value, true);
-		}
-	}
+  if (limitState){
+  if (!Number.isNaN(parseFloat(document.getElementById("sizeInput").value)) && document.getElementById("sizeSelector").value != "None"){
+  limit = convertSize(document.getElementById("sizeInput").value + document.getElementById("sizeSelector").value, true);
+  }
+  }
 
   titles.forEach((element, index) => {
     torrents.push({
@@ -184,24 +184,24 @@ function zipdl(){
       download: true
     });
 
-		if (limitState){
-			if(torrents[index].size > limit){
-				torrents[index].download = false;
-			}
-		}
+  if (limitState){
+  if(torrents[index].size > limit){
+  torrents[index].download = false;
+  }
+  }
 
-		if (excludeState) {
-			var i;
-			for (i=0; i<sizes[index].children[2].children.length; i++){
-				if(sizes[index].children[2].children[i].className.substr(0,6) == "browse"){
-					torrents[index].download = false;
-				}
-			}
-		}
+  if (excludeState) {
+  var i;
+  for (i=0; i<sizes[index].children[2].children.length; i++){
+  if(sizes[index].children[2].children[i].className.substr(0,6) == "browse"){
+  torrents[index].download = false;
+  }
+  }
+  }
 
-		if (torrents[index].download) {
-    	dlPromises.push(downloadPromise(links[index].href));
-		}
+  if (torrents[index].download) {
+      dlPromises.push(downloadPromise(links[index].href));
+  }
   });
 
   document.getElementById("zipper").innerHTML = "Downloading torrents...";
