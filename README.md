@@ -1,4 +1,4 @@
-# MaM Zipper v2.1
+# MaM Zipper v2.2.2
 
 ## Description
 This is a script for Violentmonkey and Tampermonkey that  
@@ -59,6 +59,9 @@ except for Internet Explorer, but should work on Edge.
 ## Changelog
 Description | Version | State
 --- | --- | ---
+Fixed indentation | 2.2.2 | release
+Reverted broken JSZip uglified line | 2.2.1 | release
+Fixed bug where size selector would get searched for because of the inherited name field | 2.2 | release
 Fixed bug where you can't download your own torrents and made detection of previous activity work on previously seeded torrents | v2.1 | release
 Rewrote most of the code and updated from JSzip 3.1.5 to 3.2.1 | v2.0 | beta
 Added exclude previously/currently seeding/leeching and size limiter | v1.1 | beta
