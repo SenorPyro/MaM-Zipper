@@ -1,4 +1,4 @@
-# MaM Zipper v2.2.2
+# MaM Zipper v2.3
 
 ## Description
 This is a script for Violentmonkey and Tampermonkey that  
@@ -59,6 +59,7 @@ except for Internet Explorer, but should work on Edge.
 ## Changelog
 Description | Version | State
 --- | --- | ---
+Fixed actively seeding filter and filename bug | 2.3 | release
 Fixed indentation | 2.2.2 | release
 Reverted broken JSZip uglified line | 2.2.1 | release
 Fixed bug where size selector would get searched for because of the inherited name field | 2.2 | release
